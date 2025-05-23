@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.messagebox import showerror
 
 def add_task():
     task = task_entry.get() #получаем слова из поля для ввода
@@ -7,10 +8,13 @@ def add_task():
         task_entry.delete(0, tk.END) #очищаем поле для ввода, от нулевого индекса и до конца
 
 def delete_task():
-    selected_widget = root.focus_get() #Получаем информацию об активном виджете
-    selected_task = selected_widget.curselection() #с помощью функции **curselection** элемент, на который мы нажмём, будет передавать свой ID, индекс, в переменную  selected_task
-    if selected_task:
-        selected_widget.delete(selected_task) #удаляем выбранный элемент из выбранного списка
+    try:
+        selected_widget = root.focus_get() #Получаем информацию об активном виджете
+        selected_task = selected_widget.curselection() #с помощью функции **curselection** элемент, на который мы нажмём, будет передавать свой ID, индекс, в переменную  selected_task
+        if selected_task:
+            selected_widget.delete(selected_task) #удаляем выбранный элемент из выбранного списка
+    except AttributeError:
+        showerror(title='Ошибка', message='Кнопка рассчитана только для удаления уже добавленных задач!')
 
 def take_in_work():
     selected_task = listBox_to_do.curselection()
