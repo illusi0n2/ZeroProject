@@ -6,7 +6,7 @@ import threading
 import re
 
 
-bot = telebot.TeleBot('7485941819:AAG_uTMGLcvNnMFD2a4YX7bHPDtU3cx_tHA')
+bot = telebot.TeleBot('TOKEN')
 tasks_list = [Task('123', '28-05-2025 12:50'), Task('123', '28-05-2025 12:55'), Task('fdsfsdf', '28-05-2025 12:50'), Task('utyutyutyu', '28-05-2025 12:50')]
 matches = []
 
