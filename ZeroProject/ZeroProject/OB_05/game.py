@@ -1,8 +1,7 @@
+import time
 import pygame
 import random
-import sys
 
-# Инициализация Pygame
 pygame.init()
 
 # Настройки игры
@@ -70,16 +69,35 @@ def generate_food():
 
 # Функция отображения счета
 def show_score(score):
-    font = pygame.font.Font(None, 20)
+    font = pygame.font.Font(None, 28)
     text = font.render(f"Счет: {score}", True, WHITE)
     screen.blit(text, (10, 10))
 
 # Функция для отрисовки экрана конца игры
+def game_over_screen(score):
+    screen.fill(BLACK)
 
-# Создание змейки и еды
+    game_over_font = pygame.font.Font(None, 50)
+    game_over_text = game_over_font.render("Игра окончена", True, RED)
+    text_rect = game_over_text.get_rect()
+    text_rect.center = (WIDTH // 2, HEIGHT // 4)
+    screen.blit(game_over_text, text_rect)
+
+    score_font = pygame.font.Font(None, 30)
+    score_text = score_font.render(f"Ваш счет: {score}", True, WHITE)
+    score_rect = score_text.get_rect()
+    score_rect.center = (WIDTH // 2, HEIGHT // 3)
+    screen.blit(score_text, score_rect)
+
+    pygame.display.flip()
+
+    time.sleep(5)
+
+# Создание змейки, еды и переменной для ведения счета
 snake = Snake()
 food = generate_food()
 score = 0
+
 # Основной игровой цикл
 running = True
 while running:
@@ -104,15 +122,17 @@ while running:
     if (
             head_x < 0 or head_x >= WIDTH or
             head_y < 0 or head_y >= HEIGHT or
-            snake.body[0] in snake.body[1:] # Вот тут происходит ошибка
+            snake.body[0] in snake.body[1:]
     ):
+        game_over_screen(score)
         running = False
 
     # Проверка столкновения с едой
     if snake.body[0] == food:
-        snake.grow()  # Увеличиваем змейку
-        food = generate_food() # Генерируем новую еду
-        score += 1 #Увеличиваем общий счет
+        snake.grow()
+        food = generate_food()
+        score += 1
+
     # Отрисовка
     screen.fill(BLACK)
     snake.draw(screen)
@@ -124,5 +144,3 @@ while running:
     clock.tick(FPS)
 
 pygame.quit()
-
-sys.exit()
